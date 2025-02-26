@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request
+import gzip
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from agents.manage_agent import ManagerAgent
 from typing import Dict
@@ -51,6 +52,14 @@ async def chat(request: Request) -> Dict:
                     json_response = json.loads(last_message['content'])
                     result[-1]['content'] = json_response
                 except json.JSONDecodeError as e:
+                    print(f"JSON parsing error: {str(e)}")
+            
+            elif last_message.get('type') == "base-repo-json" and last_message.get('content'):
+                try:
+                    compressed_data = gzip.compress(last_message['content'].encode('utf-8'))
+                    manager_agent.pop_thread()
+                    return Response(content=compressed_data, media_type="application/gzip")
+                except json.JSONDecodeError as e:    
                     print(f"JSON parsing error: {str(e)}")
             
             elif last_message.get('type') == "code" and last_message.get('content'):

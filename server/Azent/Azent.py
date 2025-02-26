@@ -136,11 +136,14 @@ class Agent:
                 if self.client_type == 'anthropic':
 
                     message = self.client.messages.create(
-                        model='claude-3-5-sonnet-latest',
+                        model='claude-3-7-sonnet-latest',
                         max_tokens=1024,
                         messages=self.thread[1:],
                         system=self.thread[0]['content'] if self.thread else ''
                     ).content[0].text
+
+                    self.thread.append({"role": "assistant", "content": str(message)})
+                    self.overall_thread.append({"role": "assistant", "content": str(message), "intent": "code"})
 
                 else:
                     response = self.client.chat.completions.create(
@@ -151,8 +154,8 @@ class Agent:
                     )
                     message = response.choices[0].message.content
 
-                self.thread.append({"role": "assistant", "content": str(message)})
-                self.overall_thread.append({"role": "assistant", "content": str(message)})
+                    self.thread.append({"role": "assistant", "content": str(message)})
+                    self.overall_thread.append({"role": "assistant", "content": str(message)})
                 self.save_thread()
                 return self.overall_thread
 
@@ -209,8 +212,8 @@ class Agent:
                                 "content": json.dumps(result) if result is not None else "{}",
                                 "agent_name": self.name,
                                 "type": "json-files" if tool_call.function.name in [
-                                    'get_files_with_description'] else 'json-button' if tool_call.function.name in [
-                                    'get_activities_by_activity_name', 'get_hotels'] else 'code' if self.name == 'coder_agent' else 'text'
+                                    'get_files_with_description'] else 'base-project-json' if tool_call.function.name in [
+                                    'get_base_repo'] else 'code' if self.name == 'coder_agent' else 'text'
                             }
                             self.thread.append(tool_response)
                             self.overall_thread.append(tool_response)
@@ -268,3 +271,8 @@ class Agent:
         struct_msg = response.choices[0].message.parsed.model_dump()
 
         return struct_msg
+
+    def pop_thread(self):
+        self.thread.pop()
+        self.overall_thread.pop()
+        self.save_thread()
