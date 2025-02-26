@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { GeneratedFiles } from './types';
 import { Button } from '@/components/ui/button';
 
@@ -16,6 +17,18 @@ export function CodeEditor({
   onRegenerateFile,
   isLoading
 }: CodeEditorProps) {
+  const preRef = useRef<HTMLPreElement>(null);
+  const codeContent = selectedFile ? generatedFiles[selectedFile]?.parsedCode?.streamedCode ?? '' : '';
+
+  useEffect(() => {
+    if (preRef.current) {
+      preRef.current.scrollTo({
+        top: preRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [Math.floor(codeContent.length / 20)]); // Only scroll every 20 characters
+
   if (!selectedFile) {
     return (
       <div className="flex justify-center items-center h-full bg-gray-50 text-gray-500">
@@ -66,7 +79,6 @@ export function CodeEditor({
     );
   }
 
-  const codeContent = file.parsedCode.streamedCode || file.parsedCode.code;
   const lines = codeContent.split('\n');
 
   return (
@@ -75,13 +87,16 @@ export function CodeEditor({
         <div className="absolute inset-0 flex code-container" style={{ overflow: 'hidden' }}>
           {/* Line numbers */}
           <div className="bg-gray-100 text-gray-500 text-right p-4 pr-2 font-mono text-xs border-r border-gray-200 select-none">
-            {lines.map((_, i) => (
+            {lines.map((_: string, i: number) => (
               <div key={i} className="leading-5">{i + 1}</div>
             ))}
           </div>
           
           {/* Code */}
-          <pre className="p-4 pl-2 bg-white text-sm overflow-auto whitespace-pre-wrap font-mono flex-1 leading-5 code-scroll-container">
+          <pre 
+            ref={preRef}
+            className="p-4 pl-2 bg-white text-sm overflow-auto whitespace-pre-wrap font-mono flex-1 leading-5 code-scroll-container scroll-smooth"
+          >
             {codeContent}
           </pre>
         </div>

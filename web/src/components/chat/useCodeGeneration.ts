@@ -176,6 +176,39 @@ export function useCodeGeneration() {
                 status: 'completed'
               }
             }));
+
+            // Start streaming effect
+            const streamCode = () => {
+              const codeLength = parsedCode.code.length;
+              let currentIndex = 0;
+              const streamInterval = setInterval(() => {
+                currentIndex += 3; // Stream three characters at a time
+                const isComplete = currentIndex >= codeLength;
+                
+                setGeneratedFiles(prev => {
+                  const currentFile = prev[filePath];
+                  if (!currentFile?.parsedCode) return prev;
+                  
+                  return {
+                    ...prev,
+                    [filePath]: {
+                      ...currentFile,
+                      parsedCode: {
+                        ...currentFile.parsedCode,
+                        streamedCode: parsedCode.code.slice(0, isComplete ? codeLength : currentIndex),
+                        streamIndex: isComplete ? codeLength : currentIndex
+                      }
+                    }
+                  };
+                });
+
+                if (isComplete) {
+                  clearInterval(streamInterval);
+                }
+              }, 30); // Slower interval for smoother animation
+            };
+
+            streamCode();
             
             // If this is the first file generated, select it
             if (!selectedFile) {

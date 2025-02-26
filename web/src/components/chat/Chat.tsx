@@ -7,6 +7,7 @@ import { CodeEditor } from './CodeEditor';
 import { Preview } from './Preview';
 import { useCodeGeneration } from './useCodeGeneration';
 import { useWebContainer } from './useWebContainer';
+import { Button } from '@/components/ui/button';
 
 export function Chat() {
   const {
@@ -80,17 +81,25 @@ export function Chat() {
           <div className="text-sm font-medium">Project Files</div>
           <div className="flex gap-2">
             {filesToGenerate.length > 0 && (
-              <FileExplorer
-                files={filesToGenerate}
-                generatedFiles={generatedFiles}
-                selectedFile={selectedFile}
-                currentlyGenerating={currentlyGenerating}
-                onFileSelect={handleFileSelect}
-                onGenerateAll={generateAllFiles}
-                onStartPreview={handleStartPreview}
-                isLoading={isLoading}
-                webcontainerReady={webcontainerReady}
-              />
+              <Button 
+                onClick={generateAllFiles}
+                disabled={isLoading || currentlyGenerating !== null}
+                size="sm"
+                variant="outline"
+              >
+                Generate All Files
+              </Button>
+            )}
+            {Object.keys(generatedFiles).length > 0 && (
+              <Button 
+                onClick={handleStartPreview}
+                disabled={!webcontainerReady}
+                size="sm"
+                variant="outline"
+                className="bg-green-600 text-white hover:bg-green-700"
+              >
+                Run Preview
+              </Button>
             )}
           </div>
         </div>
@@ -105,10 +114,6 @@ export function Chat() {
               selectedFile={selectedFile}
               currentlyGenerating={currentlyGenerating}
               onFileSelect={handleFileSelect}
-              onGenerateAll={generateAllFiles}
-              onStartPreview={handleStartPreview}
-              isLoading={isLoading}
-              webcontainerReady={webcontainerReady}
             />
           </div>
           

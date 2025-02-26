@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import { FileInfo, GeneratedFiles } from './types';
 
 interface FileExplorerProps {
@@ -7,10 +6,6 @@ interface FileExplorerProps {
   selectedFile: string | null;
   currentlyGenerating: string | null;
   onFileSelect: (filePath: string) => void;
-  onGenerateAll: () => void;
-  onStartPreview: () => void;
-  isLoading: boolean;
-  webcontainerReady: boolean;
 }
 
 export function FileExplorer({
@@ -18,11 +13,7 @@ export function FileExplorer({
   generatedFiles,
   selectedFile,
   currentlyGenerating,
-  onFileSelect,
-  onGenerateAll,
-  onStartPreview,
-  isLoading,
-  webcontainerReady
+  onFileSelect
 }: FileExplorerProps) {
   if (files.length === 0) {
     return (
@@ -67,29 +58,6 @@ export function FileExplorer({
           </div>
         );
       })}
-
-      <div className="px-4 pt-4 space-x-2">
-        <Button 
-          onClick={onGenerateAll}
-          disabled={isLoading || currentlyGenerating !== null}
-          size="sm"
-          variant="outline"
-        >
-          Generate All Files
-        </Button>
-        
-        {Object.keys(generatedFiles).length > 0 && (
-          <Button 
-            onClick={onStartPreview}
-            disabled={!webcontainerReady}
-            size="sm"
-            variant="outline"
-            className="bg-green-600 text-white hover:bg-green-700"
-          >
-            Run Preview
-          </Button>
-        )}
-      </div>
     </div>
   );
 }
