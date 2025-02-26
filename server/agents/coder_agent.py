@@ -10,7 +10,7 @@ class CoderAgent:
 
     def get_or_create_agent(self, user_id: str) -> Agent:
         """Get existing agent or create new one for the user"""
-        self.next_project_structure = get_project_structure()
+        # self.next_project_structure = get_project_structure()
         
         if user_id not in self.active_sessions:
             agent = Agent(
@@ -20,9 +20,6 @@ class CoderAgent:
                     You are a highly skilled 100x developer which solves and builds tasks in Next.js typescript, Shadcn UI, and Tailwind CSS in a very efficient way.
                     You will be provided with task descriptions and must respond with complete code solutions.
                     You will be provided with the current Nextjs project structure.
-
-                    Nextjs project structure in json format:
-                    {json.dumps(self.next_project_structure)}
 
                     IMPORTANT: You must ALWAYS structure your response in valid JSON format with the following fields:
                     {{
