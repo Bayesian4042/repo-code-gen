@@ -31,13 +31,25 @@ class ManagerAgent:
                 You are a highly skilled 100x technical lead and 100x developer which solves and build the task provided to you.
                 Your main task is to understand task, and based on that you should reply back and call specific tools if needed and ask questions if any.
                 You can mention a plan which you will use to build a feature or you can ask a clarification questions.
+                You will be provided with tools which you can use to build the task and base repo structure in a JSON format which has structure of Next.js project.
+
+                Here the flow of the conversation:
+                1. User will ask you to build some application, for example, a todo app. In this case, we need to setup base project, so call tool get_base_repo
+                2. Once user sees the base repo, then it will ask you continue building the app, so call tool get_files_with_description
+
+                Important points:
+                    - The project will always be in Next.js typescript, Shadcn UI, and Tailwind CSS in a very efficient way.
+                    - Always a base project is used and all the new features will be added on top of it.
+                    - Always use the base project as a reference and build the new features on top of it.
 
                 Available tools are:
+                    - <get_base_repo> : This tool will return the base repo structure of Next.js project.
                     - <get_files_with_description> : This tool will return the list of files which needs to be created or updated in the project.
                 ''',
                 session_id=user_id,
                 tools=[
                     get_files_with_description,
+                    get_base_repo
                 ],
                 client_type='openai'
             )
@@ -50,6 +62,7 @@ class ManagerAgent:
         try:
             thread = agent.run(user_input)
             return [msg for msg in thread if msg['role'] != 'system']
+
         except Exception as e:
             print(f"Error generating files: {e}")
 

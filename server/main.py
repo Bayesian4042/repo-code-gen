@@ -54,11 +54,11 @@ async def chat(request: Request) -> Dict:
                 except json.JSONDecodeError as e:
                     print(f"JSON parsing error: {str(e)}")
             
-            elif last_message.get('type') == "base-repo-json" and last_message.get('content'):
+            elif last_message.get('type') == "base-repo" and last_message.get('content'):
                 try:
-                    compressed_data = gzip.compress(last_message['content'].encode('utf-8'))
+                    compressed_data = json.loads(last_message['content'])
+                    result[-1]['content'] = compressed_data
                     manager_agent.pop_thread()
-                    return Response(content=compressed_data, media_type="application/gzip")
                 except json.JSONDecodeError as e:    
                     print(f"JSON parsing error: {str(e)}")
             

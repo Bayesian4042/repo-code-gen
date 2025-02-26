@@ -23,6 +23,8 @@ export interface ChatMessage {
 export interface FileInfo {
   file_path: string;
   description: string;
+  type?: 'file' | 'folder';
+  children?: FileInfo[];
 }
 
 export interface ParsedCode {

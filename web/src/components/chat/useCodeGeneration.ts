@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChatMessage, FileInfo, GeneratedFiles, ParsedCode } from './types';
+import { useProjectStructure } from '@/hooks/useProjectStructure';
 
 export function useCodeGeneration() {
   const [error, setError] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const baseFiles = useProjectStructure();
   const [filesToGenerate, setFilesToGenerate] = useState<FileInfo[]>([]);
+
+  // Initialize filesToGenerate with base project structure
+  useEffect(() => {
+    if (baseFiles.length > 0) {
+      setFilesToGenerate(baseFiles);
+    }
+  }, [baseFiles]);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
   const [generatedFiles, setGeneratedFiles] = useState<GeneratedFiles>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -114,7 +123,41 @@ export function useCodeGeneration() {
         if (filesMessage && filesMessage.content) {
           try {
             const filesData = JSON.parse(filesMessage.content as string) as FileInfo[];
-            setFilesToGenerate(filesData);
+            // Merge new files with base files, preserving folder structure
+            const mergedFiles = [...baseFiles];
+            filesData.forEach(file => {
+              // Split the file path into parts
+              const parts = file.file_path.split('/');
+              let currentPath = '';
+              let currentArray = mergedFiles;
+              
+              // Navigate through the path parts to find or create folders
+              for (let i = 0; i < parts.length - 1; i++) {
+                currentPath = currentPath ? `${currentPath}/${parts[i]}` : parts[i];
+                let folder = currentArray.find(f => f.file_path === currentPath && f.type === 'folder');
+                
+                if (!folder) {
+                  folder = {
+                    file_path: currentPath,
+                    description: `Directory: ${parts[i]}`,
+                    type: 'folder',
+                    children: []
+                  };
+                  currentArray.push(folder);
+                }
+                
+                currentArray = folder.children!;
+              }
+              
+              // Add the file to the appropriate folder
+              if (!currentArray.find(f => f.file_path === file.file_path)) {
+                currentArray.push({
+                  ...file,
+                  type: 'file'
+                });
+              }
+            });
+            setFilesToGenerate(mergedFiles);
           } catch (error) {
             console.error('Error parsing file list:', error);
           }

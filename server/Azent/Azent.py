@@ -212,7 +212,7 @@ class Agent:
                                 "content": json.dumps(result) if result is not None else "{}",
                                 "agent_name": self.name,
                                 "type": "json-files" if tool_call.function.name in [
-                                    'get_files_with_description'] else 'base-project-json' if tool_call.function.name in [
+                                    'get_files_with_description'] else 'base-repo' if tool_call.function.name in [
                                     'get_base_repo'] else 'code' if self.name == 'coder_agent' else 'text'
                             }
                             self.thread.append(tool_response)
