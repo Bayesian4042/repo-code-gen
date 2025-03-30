@@ -41,7 +41,7 @@ class CoderAgent:
     - No database connections (in-memory data only)
     - Use src/data/*.json for mock data
     - Images from https://picsum.photos/200/300?random=1
-    - All components in src/app/components/ui
+    - All components in src/components/ui
     - Never modify layout.tsx metadata
     - Always add TypeScript types
 

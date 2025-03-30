@@ -48,13 +48,13 @@ class ManagerAgent:
                 
                 Important Notes:
                 - The nextjs project base_template uses tailwind.config.ts and app/globals.css files for styling.
-                - Keep UI clean, good layout, and minimal button and beautiful.
+                - Keep UI clean, good layout, and minimal button and800 beautiful.
                 - the application starts from from src/app/page.tsx as the main page. for example, if you are cereating a todo app, then the code should start from src/app/page.tsx where the todo app should start.
                 - don't add any landing page in the project.
                 - Don't use any database, simply CRUD operation stores in the memory data.
                 - If possible add sidebar in the project.
                 - Don't add many components but application should look good.
-                - The UI components are in src/app/components/ui folder.
+                - The UI components are in src/components/ui folder.
                 - The lib components are in src/lib folder.
                 - The shadcn UI components are already available in the project.
                 - Make UI colourful but professional.
