@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Editor from "@monaco-editor/react";
-import type { editor } from 'monaco-editor';
+import type { editor } from 'monaco-types';
 import { useFileStore } from "@/store/fileStore";
 import { useSidebar } from "@/components/ui/sidebar";
 

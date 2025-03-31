@@ -1,9 +1,9 @@
-import type { NextAuthOptions } from 'next-auth';
-import { getServerSession } from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-import { AuthService } from '@/services/auth-api';
+import type { NextAuthOptions } from "next-auth";
+import { getServerSession } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import { AuthService } from "@/services/auth-api";
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session {
     token: string;
     role: string;
@@ -31,30 +31,27 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: '/auth',
-    error: '/auth',
+    signIn: "/auth",
+    error: "/auth",
   },
   callbacks: {
     async signIn({ account }: { account: any }) {
-      if (account?.provider === 'google') {
+      if (account?.provider === "google") {
         try {
           const res = await AuthService.signInWithGoogle(account.id_token!);
           if (res) {
             return true;
           }
-          return '/auth?error=google_signin';
+          return "/auth?error=google_signin";
         } catch (error: any) {
           const errorMessage = error?.response?.data?.message;
-          if (errorMessage?.includes('waitlist')) {
-            return `/auth?error=${encodeURIComponent(errorMessage)}`;
-          }
-          return '/auth?error=google_signin';
+          return "/auth?error=google_signin";
         }
       }
       return false;
     },
-    async jwt({ token, account }: { token: any; account: any; profile: any }) {
-      if (account?.provider === 'google') {
+    async jwt({ token, account, profile, user }) {
+      if (account?.provider === "google") {
         const res = await AuthService.signInWithGoogle(account.id_token!);
         if (res) {
           token.token = res.token;

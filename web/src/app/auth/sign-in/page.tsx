@@ -6,8 +6,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
+import { Suspense } from "react"
 
-export default function AuthPage() {
+function SignInContent() {
     const searchParams = useSearchParams()
     const error = searchParams.get("error")
 
@@ -73,6 +74,14 @@ export default function AuthPage() {
                 </CardContent>
             </Card>
         </div>
+    )
+}
+
+export default function AuthPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SignInContent />
+        </Suspense>
     )
 }
 

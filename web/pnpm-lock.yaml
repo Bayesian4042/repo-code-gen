@@ -59,6 +59,9 @@ importers:
       lucide-react:
         specifier: ^0.475.0
         version: 0.475.0(react@18.3.1)
+      monaco-types:
+        specifier: ^0.1.0
+        version: 0.1.0
       next:
         specifier: ^14.1.0
         version: 14.2.24(@babel/core@7.26.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -2161,6 +2164,9 @@ packages:
 
   monaco-editor@0.52.2:
     resolution: {integrity: sha512-GEQWEZmfkOGLdd3XK8ryrfWz3AIP8YymVXiPHEdewrUq7mh0qrKrfHLNCXcbB6sTnMLnOZ3ztSiKcciFUkIJwQ==}
+
+  monaco-types@0.1.0:
+    resolution: {integrity: sha512-aWK7SN9hAqNYi0WosPoMjenMeXJjwCxDibOqWffyQ/qXdzB/86xshGQobRferfmNz7BSNQ8GB0MD0oby9/5fTQ==}
 
   motion-dom@12.5.0:
     resolution: {integrity: sha512-uH2PETDh7m+Hjd1UQQ56yHqwn83SAwNjimNPE/kC+Kds0t4Yh7+29rfo5wezVFpPOv57U4IuWved5d1x0kNhbQ==}
@@ -4334,7 +4340,7 @@ snapshots:
       '@typescript-eslint/parser': 8.24.1(eslint@8.57.1)(typescript@5.7.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.8.3(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.8.3(eslint-plugin-import@2.31.0)(eslint@8.57.1)
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-typescript@3.8.3)(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
       eslint-plugin-react: 7.37.4(eslint@8.57.1)
@@ -4354,7 +4360,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.8.3(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1))(eslint@8.57.1):
+  eslint-import-resolver-typescript@3.8.3(eslint-plugin-import@2.31.0)(eslint@8.57.1):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.0
@@ -4369,14 +4375,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.8.3(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.8.3)(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.24.1(eslint@8.57.1)(typescript@5.7.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-import-resolver-typescript: 3.8.3(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.8.3(eslint-plugin-import@2.31.0)(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -4391,7 +4397,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.8.3(eslint-plugin-import@2.31.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.24.1(eslint@8.57.1)(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.8.3)(eslint@8.57.1)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -5478,6 +5484,8 @@ snapshots:
   mkdirp@2.1.6: {}
 
   monaco-editor@0.52.2: {}
+
+  monaco-types@0.1.0: {}
 
   motion-dom@12.5.0:
     dependencies:
